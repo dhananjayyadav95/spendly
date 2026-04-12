@@ -666,3 +666,85 @@ a { color: inherit; text-decoration: none; }
         font-size: 1.75rem;
     }
 }
+
+/* ------------------------------------------------------------------ */
+/* Modal                                                               */
+/* ------------------------------------------------------------------ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--paper-card);
+    border-radius: var(--radius-md);
+    position: relative;
+    max-width: 640px;
+    width: 100%;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 36px;
+    height: 36px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: var(--accent);
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.modal-body iframe {
+    width: 100%;
+    height: 360px;
+    border-radius: var(--radius-sm);
+}
+
+@media (max-width: 600px) {
+    .modal-body iframe {
+        height: 200px;
+    }
+}
