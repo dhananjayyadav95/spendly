@@ -1,6 +1,26 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
+from database.db import get_db, init_db, seed_db
 
 app = Flask(__name__)
+
+
+# ------------------------------------------------------------------ #
+# Database                                                           #
+# ------------------------------------------------------------------ #
+
+@app.teardown_appcontext
+def close_db(exception):
+    """Close the database connection at the end of each request."""
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
+
+
+def get_db_connection():
+    """Get the database connection for the current request context."""
+    if "db" not in g:
+        g.db = get_db()
+    return g.db
 
 
 # ------------------------------------------------------------------ #
@@ -59,6 +79,14 @@ def edit_expense(id):
 @app.route("/expenses/<int:id>/delete")
 def delete_expense(id):
     return "Delete expense — coming in Step 9"
+
+
+@app.route("/init-db")
+def init_database():
+    """Initialize and seed the database (development helper)."""
+    init_db()
+    seed_db()
+    return "Database initialized and seeded!"
 
 
 if __name__ == "__main__":
