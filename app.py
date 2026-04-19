@@ -145,7 +145,49 @@ def logout():
 
 @app.route("/profile")
 def profile():
-    return "Profile page — coming in Step 4"
+    # Authentication guard
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    # Hardcoded user data (will be replaced with DB queries in Step 5)
+    user = {
+        "name": "John Doe",
+        "initials": "JD",
+        "email": "john@example.com",
+        "member_since": "January 15, 2025"
+    }
+
+    # Hardcoded stats
+    stats = {
+        "total_spent": 15420.50,
+        "transaction_count": 47,
+        "top_category": "Food & Dining"
+    }
+
+    # Hardcoded transactions with badge classes
+    transactions = [
+        {"date": "2025-01-20", "description": "Grocery shopping", "category": "Food", "badge_class": "food", "amount": 1250.00},
+        {"date": "2025-01-18", "description": "Monthly rent", "category": "Housing", "badge_class": "housing", "amount": 8000.00},
+        {"date": "2025-01-15", "description": "Electricity bill", "category": "Utilities", "badge_class": "utilities", "amount": 850.00},
+        {"date": "2025-01-12", "description": "Movie night", "category": "Entertainment", "badge_class": "entertainment", "amount": 450.00},
+        {"date": "2025-01-10", "description": "Bus pass", "category": "Transport", "badge_class": "transport", "amount": 200.00}
+    ]
+
+    # Hardcoded category breakdown
+    categories = [
+        {"name": "Housing", "amount": 8000.00, "percentage": 52},
+        {"name": "Food & Dining", "amount": 5420.00, "percentage": 35},
+        {"name": "Transport", "amount": 1200.00, "percentage": 8},
+        {"name": "Entertainment", "amount": 800.00, "percentage": 5}
+    ]
+
+    return render_template(
+        "profile.html",
+        user=user,
+        stats=stats,
+        transactions=transactions,
+        categories=categories
+    )
 
 
 @app.route("/expenses/add")
